@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import CamperLeaderboard from './CamperLeaderboard';
 import './index.sass';
 
 ReactDOM.render(
-  <App />,
+  <CamperLeaderboard urlBase="https://fcctop100.herokuapp.com/api/fccusers/top/"
+  />,
   document.getElementById('root')
 );
