@@ -23,9 +23,39 @@ const CamperRow = React.createClass({
   }
 });
 
+const CamperMenu = React.createClass({
+  render: function() {
+    return (
+      <div className="CamperLeaderboard-menu">
+        <div className="row row-primary">
+        <div className="col-xs-1">
+        #
+        </div>
+        <div className="col-xs-5 col-user">
+          <span>Camper Name</span>
+        </div>
+        <div className="col-xs-3">
+          Points in past 30 days
+        </div>
+        <div className="col-xs-3">
+        All time points
+        </div>
+        </div>
+      </div>
+    );
+  }
+});
+
 const CamperLeaderboard = React.createClass({
+  getDefaultProps: function() {
+    return {
+      mode: 'recent'
+    };
+  },
   getInitialState: function() {
-    return {data: [1,2]};
+    return {
+      data: []
+    };
   },
   _getJSON: function(url, callback) {
     var request = new XMLHttpRequest();
@@ -49,7 +79,7 @@ const CamperLeaderboard = React.createClass({
     request.send();
   },
   componentDidMount: function() {
-    this.serverRequest = this._getJSON(this.props.urlBase + 'recent', (d) => {
+    this.serverRequest = this._getJSON(this.props.urlBase + this.props.mode, (d) => {
       this.setState({
         data: d
       });
@@ -74,17 +104,17 @@ const CamperLeaderboard = React.createClass({
         />
       );
     });
-    console.log(this.state.data);
     return (
       <div className="CamperLeaderboard">
         <div className="container">
+        <div className="CamperLeaderboard-header">
           <div className="row">
             <div className="col-xs-12 center-block">
-              <div className="CamperLeaderboard-header">
                 <h1>Camper Leaderboard</h1>
               </div>
             </div>
           </div>
+          <CamperMenu />
           <div className="CamperLeaderboard-body">
             {camperRows}
           </div>
