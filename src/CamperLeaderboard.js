@@ -27,17 +27,17 @@ const CamperMenu = React.createClass({
   render: function() {
     return (
       <div className="CamperLeaderboard-menu">
-        <div className="row row-primary">
+        <div className="row row-alt">
         <div className="col-xs-1">
         #
         </div>
         <div className="col-xs-5 col-user">
           <span>Camper Name</span>
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-3 col-interactable">
           Points in past 30 days
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-3 col-interactable">
         All time points
         </div>
         </div>
