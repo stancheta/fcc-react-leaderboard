@@ -1,4 +1,32 @@
+$font-stack: Helvetica, Arial, sans-serif
+$bg-dark: #333
+$text-light: #ffe
+$brand-accent: #2098d1
+
+html
+  min-height: 100vh
+
 body
   margin: 0
   padding: 0
-  font-family: sans-serif
+  font-family: $font-stack
+  display: flex
+  flex-direction: column
+  min-height: 100vh
+
+main
+  flex: 1
+  text-align: center
+
+footer
+  background-color: $bg-dark
+  color: $text-light
+  padding: 1.6em 0
+  width: 100vw
+  span
+    margin-left: 1em
+  a
+    color: $text-light
+    text-decoration: none
+    &:hover
+      color: $brand-accent
