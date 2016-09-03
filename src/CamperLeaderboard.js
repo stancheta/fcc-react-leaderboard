@@ -25,6 +25,21 @@ const CamperRow = React.createClass({
   }
 });
 
+const CamperMenuButton = React.createClass({
+  render: function() {
+    let title = this.props.title;
+    if (this.props.active === this.props.id) title += ' '
+    return (
+      <span
+        onClick={this.props.onMenuClick}
+        className="menu-interactable" >
+        {title}
+        {this.props.active === this.props.id ? <i className="fa fa-caret-down"></i> : ''}
+      </span>
+    );
+  }
+});
+
 const CamperMenu = React.createClass({
   handleRecent: function() {
     this.props.onMenuClick('recent');
@@ -36,22 +51,28 @@ const CamperMenu = React.createClass({
     return (
       <div className="CamperLeaderboard-menu">
         <div className="row row-alt">
-        <div className="col-xs-1">
-        #
-        </div>
-        <div className="col-xs-5 col-user">
-          <span>Camper Name</span>
-        </div>
-        <div className="col-xs-3">
-          <span
-            onClick={this.handleRecent}
-            className="menu-interactable" >Points in Past 30 Days </span>
-        </div>
-        <div className="col-xs-3 col-interactable">
-          <span
-            onClick={this.handleAllTime}
-            className="menu-interactable" >All Time Points </span>
-        </div>
+          <div className="col-xs-1">
+          #
+          </div>
+          <div className="col-xs-5 col-user">
+            <span>Camper Name</span>
+          </div>
+          <div className="col-xs-3">
+            <CamperMenuButton
+              onMenuClick={this.handleRecent}
+              title="Points in Past 30 Days"
+              id={'recent'}
+              active={this.props.active}
+            />
+          </div>
+          <div className="col-xs-3 col-interactable">
+            <CamperMenuButton
+              onMenuClick={this.handleAllTime}
+              title="All Time Points"
+              id={'alltime'}
+              active={this.props.active}
+            />
+          </div>
         </div>
       </div>
     );
@@ -61,6 +82,7 @@ const CamperMenu = React.createClass({
 const CamperLeaderboard = React.createClass({
   getInitialState: function() {
     return {
+      mode: '',
       data: []
     };
   },
@@ -98,6 +120,7 @@ const CamperLeaderboard = React.createClass({
     const selection = s || 'recent';
     this.serverRequest = this._getJSON(this.props.urlBase + selection, (d) => {
       this.setState({
+        mode: selection,
         data: d
       });
     });
@@ -129,7 +152,10 @@ const CamperLeaderboard = React.createClass({
               </div>
             </div>
           </div>
-          <CamperMenu onMenuClick={this.handleMenuClick}/>
+          <CamperMenu
+            onMenuClick={this.handleMenuClick}
+            active={this.state.mode}
+          />
           <div className="CamperLeaderboard-body">
             {camperRows}
           </div>
