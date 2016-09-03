@@ -9,6 +9,8 @@
   border-top-right-radius: 5px
   color: #eee
   padding: 0.5em 0
+  .row
+    width: 100%
   h1
     font-size: 1.75em
     margin: 0
@@ -33,18 +35,20 @@
 .CamperLeaderboard-menu
   border-bottom: none
   font-weight: bold
-  .col-interactable
+  .menu-interactable
     text-decoration: underline
     cursor: pointer
 
 .col-user
   height: 100%
-  img
-    border: 1px $bg-dark solid
-    float: left
-    height: 100%
   a
     float: left
-    padding-left: 0.5em
+    height: 100%
+    img
+      border: 1px $bg-dark solid
+      background-color: $bg-light
+      margin-right: 0.5em
+      float: left
+      height: 100%
   span
     float: left

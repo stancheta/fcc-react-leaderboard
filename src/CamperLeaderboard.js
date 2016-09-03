@@ -9,8 +9,10 @@ const CamperRow = React.createClass({
         {this.props.ranking}
       </div>
       <div className="col-xs-5 col-user">
-        <img src={this.props.img} />
-        <a href={this.props.userURL + this.props.username}>{this.props.username}</a>
+        <a href={this.props.userURL + this.props.username}>
+          <img src={this.props.img} />
+          {this.props.username}
+        </a>
       </div>
       <div className="col-xs-3">
         {this.props.recent}
@@ -24,6 +26,12 @@ const CamperRow = React.createClass({
 });
 
 const CamperMenu = React.createClass({
+  handleRecent: function() {
+    this.props.onMenuClick('recent');
+  },
+  handleAllTime: function() {
+    this.props.onMenuClick('alltime');
+  },
   render: function() {
     return (
       <div className="CamperLeaderboard-menu">
@@ -34,11 +42,15 @@ const CamperMenu = React.createClass({
         <div className="col-xs-5 col-user">
           <span>Camper Name</span>
         </div>
-        <div className="col-xs-3 col-interactable">
-          Points in past 30 days
+        <div className="col-xs-3">
+          <span
+            onClick={this.handleRecent}
+            className="menu-interactable" >Points in Past 30 Days </span>
         </div>
         <div className="col-xs-3 col-interactable">
-        All time points
+          <span
+            onClick={this.handleAllTime}
+            className="menu-interactable" >All Time Points </span>
         </div>
         </div>
       </div>
@@ -47,11 +59,6 @@ const CamperMenu = React.createClass({
 });
 
 const CamperLeaderboard = React.createClass({
-  getDefaultProps: function() {
-    return {
-      mode: 'recent'
-    };
-  },
   getInitialState: function() {
     return {
       data: []
@@ -78,15 +85,22 @@ const CamperLeaderboard = React.createClass({
 
     request.send();
   },
+  handleMenuClick: function(selection) {
+    this._updateState(selection);
+  },
   componentDidMount: function() {
-    this.serverRequest = this._getJSON(this.props.urlBase + this.props.mode, (d) => {
+    this._updateState();
+  },
+  componentWillUnmount: function() {
+    this.serverRequest.abort();
+  },
+  _updateState: function(s) {
+    const selection = s || 'recent';
+    this.serverRequest = this._getJSON(this.props.urlBase + selection, (d) => {
       this.setState({
         data: d
       });
     });
-  },
-  componentWillUnmount: function() {
-    this.serverRequest.abort();
   },
   render: function() {
     const camperRows = this.state.data.map((d, i) => {
@@ -94,6 +108,7 @@ const CamperLeaderboard = React.createClass({
       if (i % 2 === 1) backgroundColor = 'row-alt';
       return (
         <CamperRow
+            key={'camper-' + d.username}
             userURL="https://www.freecodecamp.com/"
             ranking={i + 1}
             background={backgroundColor}
@@ -107,14 +122,14 @@ const CamperLeaderboard = React.createClass({
     return (
       <div className="CamperLeaderboard">
         <div className="container">
-        <div className="CamperLeaderboard-header">
-          <div className="row">
-            <div className="col-xs-12 center-block">
-                <h1>Camper Leaderboard</h1>
+          <div className="CamperLeaderboard-header">
+            <div className="row">
+              <div className="col-xs-12 center-block">
+                  <h1>Camper Leaderboard</h1>
               </div>
             </div>
           </div>
-          <CamperMenu />
+          <CamperMenu onMenuClick={this.handleMenuClick}/>
           <div className="CamperLeaderboard-body">
             {camperRows}
           </div>
