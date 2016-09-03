@@ -5,19 +5,19 @@ const CamperRow = React.createClass({
   render: function() {
     return (
     <div className={"row " + this.props.background}>
-      <div className="col-xs-1">
+      <div className="col-lg-1 col-md-2">
         {this.props.ranking}
       </div>
-      <div className="col-xs-5 col-user">
+      <div className="col-lg-5 col-md-4 col-user">
         <a href={this.props.userURL + this.props.username}>
           <img src={this.props.img} />
           {this.props.username}
         </a>
       </div>
-      <div className="col-xs-3">
+      <div className="col-lg-3 col-md-3">
         {this.props.recent}
       </div>
-      <div className="col-xs-3">
+      <div className="col-lg-3 col-md-3">
         {this.props.alltime}
       </div>
     </div>
@@ -51,13 +51,13 @@ const CamperMenu = React.createClass({
     return (
       <div className="CamperLeaderboard-menu">
         <div className="row row-alt">
-          <div className="col-xs-1">
+          <div className="col-lg-1 col-md-2">
           #
           </div>
-          <div className="col-xs-5 col-user">
+          <div className="col-lg-5 col-md-4 col-user">
             <span>Camper Name</span>
           </div>
-          <div className="col-xs-3">
+          <div className="col-lg-3 col-md-3">
             <CamperMenuButton
               onMenuClick={this.handleRecent}
               title="Points in Past 30 Days"
@@ -65,7 +65,7 @@ const CamperMenu = React.createClass({
               active={this.props.active}
             />
           </div>
-          <div className="col-xs-3 col-interactable">
+          <div className="col-lg-3 col-md-3">
             <CamperMenuButton
               onMenuClick={this.handleAllTime}
               title="All Time Points"
